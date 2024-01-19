@@ -1,10 +1,10 @@
 {% extends 'backend/base.html' %}
 
-{% block title %} Create Variant {% endblock %}
+{% block title %} Product Variants {% endblock %}
 
 {% block content %}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Product Variant</h1>
+        <h1 class="h3 mb-0 text-gray-800">Product Variants</h1>
         <a href="{% url 'product:create.variant' %}" class="float-right btn btn-primary">+ New Variant</a>
     </div>
 
@@ -12,7 +12,7 @@
         <form action="?" method="get" class="card-header py-3">
             <div class="form-row">
                 <div class="col-md-3">
-                    <input type="text" name="title__icontains" value="{{ request }}" placeholder="Serch"
+                    <input type="text" name="title__icontains" value="{{ request }}" placeholder="Search"
                            class="form-control">
                 </div>
                 <div class="col-md-1">
@@ -24,28 +24,28 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Action</th>
-                    </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {% for variant in variant_list %}
-                        <tr>
-                            <td>{{ variant.title }}</td>
-                            <td>{{ variant.description }}</td>
-                            <td>{{ variant.active }}</td>
-                            <td>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <a href="{% url 'product:update.variant' variant.id %}"
-                                       class="btn btn-primary">Edit</a>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for variant in variant_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ variant.title }}</td>
+                                <td>{{ variant.description }}</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <a href="{% url 'product:update.variant' variant.id %}"
+                                           class="btn btn-primary">Edit</a>
+                                        <button type="button" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -53,14 +53,14 @@
         <div class="card-footer">
             <div class="pagination">
                 <span class="page-links">
-                    {% if page_obj.has_previous %}
-                        <a href="/product/variants/?browse={{ input }}&page={{ page_obj.previous_page_number }}">previous</a>
+                    {% if variant_list.has_previous %}
+                        <a href="?title__icontains={{ request }}&page={{ variant_list.previous_page_number }}">previous</a>
                     {% endif %}
                     <span class="page-current">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        Page {{ variant_list.number }} of {{ variant_list.paginator.num_pages }}.
                     </span>
-                    {% if page_obj.has_next %}
-                        <a href="/product/variants/?browse={{ input }}&page={{ page_obj.next_page_number }}">next</a>
+                    {% if variant_list.has_next %}
+                        <a href="?title__icontains={{ request }}&page={{ variant_list.next_page_number }}">next</a>
                     {% endif %}
                 </span>
             </div>

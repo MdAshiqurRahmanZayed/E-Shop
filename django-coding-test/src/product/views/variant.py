@@ -1,6 +1,6 @@
 from django.views import generic
 from django.views.generic import ListView, CreateView, UpdateView
-
+from django.urls import reverse_lazy
 from product.forms import VariantForm
 from product.models import Variant
 
@@ -33,9 +33,17 @@ class VariantView(BaseVariantView, ListView):
         return context
 
 
-class VariantCreateView(BaseVariantView, CreateView):
-    pass
+class VariantCreateView(CreateView):
+    model = Variant
+    template_name = 'variants/create.html'
+    form_class = VariantForm
+    success_url = reverse_lazy('variants')
 
 
-class VariantEditView(BaseVariantView, UpdateView):
+
+class VariantEditView(UpdateView):
+    model = Variant
+    template_name = 'variants/create.html'
+    form_class = VariantForm
     pk_url_kwarg = 'id'
+    success_url = reverse_lazy('variants')
